@@ -2,6 +2,7 @@ var io = require('socket.io');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var tmp = require('temporary');
+var sep = getSeparator();
 
 exports.init = function(server) {
 	console.log('JavaDec initialized');
@@ -22,7 +23,7 @@ exports.init = function(server) {
 function java2ByteCode(javaFile, code, socket) {
 	var tmpDir = new tmp.Dir();
 	console.log('tmpDir: ' + tmpDir.path);
-	fs.writeFile(tmpDir.path + '/' + javaFile, code, function(err) {
+	fs.writeFile(tmpDir.path + sep + javaFile, code, function(err) {
 		if(err) {
 			// compile error doesn't go here...
 			console.log(err);
@@ -34,7 +35,9 @@ function java2ByteCode(javaFile, code, socket) {
 }
 
 function compileJava(javaFile, socket, tmpDir) {
-	var child = exec('jdk1.8.0_25\\bin\\javac.exe ' + tmpDir.path + '\\' + javaFile, function(error, stdout, stderr) {
+	console.log('seperator: ' + sep);
+	var child = exec('jdk1.8.0_25'+ sep +'bin' + sep + 'javac.exe ' + 
+		tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log(stderr);
 	        socket.emit('wrong', {
@@ -49,7 +52,8 @@ function compileJava(javaFile, socket, tmpDir) {
 }
 
 function genByteCode(classFile, socket, tmpDir) {
-	var child = exec('jdk1.8.0_25\\bin\\javap.exe -c ' + tmpDir.path + '\\'+classFile, function(error, stdout, stderr) {
+	var child = exec('jdk1.8.0_25' + sep + 'bin' + sep + 'javap.exe -c ' + 
+		tmpDir.path + sep + classFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log(stderr);
 	        socket.emit('wrong', {
@@ -64,4 +68,12 @@ function genByteCode(classFile, socket, tmpDir) {
 	   		code: stdout
 	   });
 	});
+}
+
+function getSeparator() {
+	if(process.platform.indexOf('win') > -1) { // contains win
+		return '\\';
+	} else {
+		return '/';
+	}
 }
