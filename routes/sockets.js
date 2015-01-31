@@ -71,7 +71,7 @@ function genByteCode(classFile, socket, tmpDir) {
 }
 
 function getSeparator() {
-	if(process.platform.indexOf('win') > -1) { // contains win
+	if(process.platform.indexOf('win32') > -1) { // contains win
 		return '\\';
 	} else {
 		return '/';
