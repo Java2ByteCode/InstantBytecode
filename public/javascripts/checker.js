@@ -19,7 +19,8 @@ $(function() {
 		//console.log('diff: ' + (now - codeSentTimeStampe));
 		if (now - codeSentTimeStampe >= waitMilliSec) {
 			socket.emit('code_sent', {
-				code: $('#input_java').val()
+				code: $('#input_java').val(),
+				className: $('#class_name').val()
 			});	
 			codeSentTimeStampe = new Date().getTime();
 		} 

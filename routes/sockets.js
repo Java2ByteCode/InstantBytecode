@@ -12,7 +12,7 @@ exports.init = function(server) {
 		console.log('JavaDec on connection');
 
 		socket.on('code_sent', function(data) {
-			var javaFile = 'Something.java';
+			var javaFile = data.className + '.java';
 			console.log('code received');
 			
 			java2ByteCode(javaFile, data.code, socket);
@@ -47,7 +47,7 @@ function compileJava(javaFile, socket, tmpDir) {
 	        // error handling & exit
 	   }
 	   console.log('class file generated');
-	   genByteCode('Something.class', socket, tmpDir);
+	   genByteCode(javaFile.replace('java', 'class'), socket, tmpDir);
 	});
 }
 

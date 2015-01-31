@@ -7,6 +7,8 @@ block append head
 block content
   p Welcome to the Instant Java Class File Disassembler Online
   div
+    input#class_name(type="text", placeholder="Input class name here")
+  div
     textarea#input_java(style="width: 90%; height: 300px;", placeholder="Input java code here.")
   div
     textarea#output_bc(readonly, style="width: 90%; height: 300px;")
