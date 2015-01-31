@@ -36,7 +36,7 @@ function java2ByteCode(javaFile, code, socket) {
 
 function compileJava(javaFile, socket, tmpDir) {
 	console.log('seperator: ' + sep);
-	var child = exec('jdk1.8.0_25'+ sep +'bin' + sep + 'javac.exe ' + 
+	var child = exec('%JAVA_HOME%' + sep + 'bin' + sep + 'javac.exe ' + 
 		tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log(stderr);
@@ -52,7 +52,7 @@ function compileJava(javaFile, socket, tmpDir) {
 }
 
 function genByteCode(classFile, socket, tmpDir) {
-	var child = exec('jdk1.8.0_25' + sep + 'bin' + sep + 'javap.exe -c ' + 
+	var child = exec('%JAVA_HOME%'+ sep + 'bin' + sep + 'javap.exe -c ' + 
 		tmpDir.path + sep + classFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log(stderr);
@@ -70,8 +70,14 @@ function genByteCode(classFile, socket, tmpDir) {
 	});
 }
 
+function getEnvVarWin(envVar) {
+	if(process.platform.indexOf('win32') > -1) { // windows operating system
+
+	}
+}
+
 function getSeparator() {
-	if(process.platform.indexOf('win32') > -1) { // contains win
+	if(process.platform.indexOf('win32') > -1) { // contains win32
 		return '\\';
 	} else {
 		return '/';
