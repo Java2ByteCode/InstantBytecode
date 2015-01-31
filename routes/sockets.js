@@ -25,7 +25,6 @@ function java2ByteCode(javaFile, code, socket) {
 	console.log('tmpDir: ' + tmpDir.path);
 	fs.writeFile(tmpDir.path + sep + javaFile, code, function(err) {
 		if(err) {
-			// compile error doesn't go here...
 			console.log(err);
 			return;
 		} 
