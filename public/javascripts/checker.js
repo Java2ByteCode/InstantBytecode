@@ -10,8 +10,8 @@ socket.on('wrong', function(data) {
 });
 
 $(function() {
-	var idleIntervalId = setInterval(tick, 1000);
 	var waitMilliSec = 1000;
+	var idleIntervalId = setInterval(tick, waitMilliSec);
 	var codeSentTimeStamp = new Date().getTime() - waitMilliSec;
 	//console.log('codeSentTimeStamp: ' + codeSentTimeStamp);
 	$('#input_java').bind('input propertychange', function() {
@@ -22,6 +22,7 @@ $(function() {
 		console.log('className not empty : ' + (className !== ''));
 		console.log('class Name: ' + className);
 		if (now - codeSentTimeStamp >= waitMilliSec && className !== '') {
+			console.log('upload from top');
 			socket.emit('code_sent', {
 				code: $('#input_java').val(),
 				className: className
@@ -44,6 +45,7 @@ $(function() {
     	idleSec = idleSec + 1;
     	if (idleSec >= 1 && className !== '') {
     		// if idle for more than 1 second upload the code
+    		console.log('upload from tick()');
         	socket.emit('code_sent', {
 				code: $('#input_java').val(),
 				className: className
