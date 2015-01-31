@@ -5,10 +5,18 @@ block append head
   script(type='text/javascript', src='/javascripts/checker.js')
 
 block content
-  p Welcome to the Instant Java Class File Disassembler Online
-  div
-    input#class_name(type="text", placeholder="Input class name here")
-  div
-    textarea#input_java(style="width: 90%; height: 300px;", placeholder="Input java code here.")
-  div
-    textarea#output_bc(readonly, style="width: 90%; height: 300px;")
+  title "textarea's test"
+  div.a
+    h1 Welcome to the Instant Java Class File Disassembler Online
+    br
+    input#class_name(placeholder="Enter your class")
+  div.b
+    div.b0
+    div.b1
+      h2 Your java code:
+      textarea#input_java(name="styled-textarea", placeholder="Input java code here", onfocus="this.value='';", style="background-color: white; background-position: initial initial; background-repeat: initial initial;")
+    div.b2
+    div.b3
+      h2 Your result: 
+      textarea#output_bc(name="styled-textarea", onfocus="this.value=''; ", style="background-color: white; background-position: initial initial; background-repeat: initial initial;")
+    div.b4

@@ -1,8 +1,48 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.a{
+	max-width: 960px;
+	width: 100%;
+	height: 70px;
+	margin: 40px auto;
+}
+.b{
+	max-width: 960px;
+	width: 100%;
+	height: 450px;
+	margin: 0px auto;
+}
+.b0{
+	width: 6%;
+	height: 100%;
+	float: left;
+}
+.b1{
+	width: 41%;
+	height: 100%;
+	float: left;
+}
+.b2{
+	width: 6%;
+	height: 100%;
+	float: left;
+}
+.b3{
+	width: 41%;
+	height: 100%;
+	float: left;
+}
+.b4{
+	width: 6%;
+	height: 100%;
+	float: left;
 }
 
-a {
-  color: #00B7FF;
+textarea#input_java {
+	width: 100%;
+	height:100%;
 }
+
+textarea#output_bc {
+	width: 100%;
+	height:100%;
+}
+
