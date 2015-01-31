@@ -1,0 +1,12 @@
+extends layout
+
+block append head
+  script(type='text/javascript', src='/socket.io/socket.io.js')
+  script(type='text/javascript', src='/javascripts/checker.js')
+
+block content
+  p Welcome to the Instant Java Class File Disassembler Online
+  div
+    textarea#input_java(style="width: 90%; height: 300px;", placeholder="Input java code here.")
+  div
+    textarea#output_bc(readonly, style="width: 90%; height: 300px;")
