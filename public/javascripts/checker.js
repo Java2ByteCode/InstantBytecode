@@ -14,6 +14,7 @@ socket.on('wrong', function(data) {
 
 $(function() {
 	var inputJavaCM = CodeMirror.fromTextArea(document.getElementById('input_java'), {
+		styleActiveLine: true,
 		mode: 'clike',
 		lineNumbers: true
 	});
