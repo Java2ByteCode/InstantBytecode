@@ -13,13 +13,13 @@ socket.on('wrong', function(data) {
 });
 
 $(function() {
-	var newJavaCode = $('#input_java').val();
-	var newClassName = $('#class_name').val();
-
-
+	var inputJavaCM = CodeMirror.fromTextArea(document.getElementById('input_java'), {
+		mode: 'clike',
+		lineNumbers: true
+	});
 
 	var idleIntervalId = setInterval(function() {
-		newJavaCode = $('#input_java').val();
+		newJavaCode = inputJavaCM.getValue();
 		newClassName = $('#class_name').val();
 		checkDiff(newJavaCode, newClassName);
 	} , waitMilliSec);
@@ -27,19 +27,11 @@ $(function() {
 	function checkDiff(newJavaCode, newClassName) {
 		if((newJavaCode != oldJavaCode) || (newClassName != oldClassName)) {
 			socket.emit('code_sent', {
-				code: $('#input_java').val(),
-				className: $('#class_name').val()
+				code: newJavaCode,
+				className: newClassName
 			});	
 			oldJavaCode = newJavaCode;
-			oldClassName = newClassName;
-			
-			var myCodeMirror = CodeMirror(function(elt) {
-				console.log('code mirror triggered');
-				elt.id = 'input_java';
-				var inputJavaTextArea = document.getElementById('input_java');
-				console.log('inputJavaTextArea:' + inputJavaTextArea);
-				inputJavaTextArea.parentNode.replaceChild(elt, inputJavaTextArea);
-			}, {mode: 'clike'});
+			oldClassName = newClassName;	
 		}
 	}
 });
