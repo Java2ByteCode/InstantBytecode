@@ -33,17 +33,22 @@ function java2ByteCode(javaFile, code, socket) {
 	});
 }
 
+function hideErrorMsgPath(tmpDirPath, stderr) {
+	var tmp = tmpDirPath.replace(/([\/\\])/g, '');
+	return stderr.replace(/[\/\\]/g, '').replace(tmp, '');
+}
+
 function compileJava(javaFile, socket, tmpDir) {
 	console.log('seperator: ' + sep);
 	var child = exec(getEnvVarWin('JAVA_HOME') + sep + 'bin' + sep + 'javac ' + 
 		tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
-	        console.log(stderr);
+	        console.log('stderr(compieJava): ' + stderr);
+	        var errMsg = hideErrorMsgPath(tmpDir.path, stderr);        
 	        socket.emit('wrong', {
-	        	err: stderr
+	        	err: errMsg
 	        });
 	        return;
-	        // error handling & exit
 	   }
 	   console.log('class file generated');
 	   genByteCode(javaFile.replace('java', 'class'), socket, tmpDir);
@@ -53,13 +58,13 @@ function compileJava(javaFile, socket, tmpDir) {
 function genByteCode(classFile, socket, tmpDir) {
 	var child = exec(getEnvVarWin('JAVA_HOME')+ sep + 'bin' + sep + 'javap -c ' + 
 		tmpDir.path + sep + classFile, function(error, stdout, stderr) {
-		if ( error != null ) {
-	        console.log(stderr);
+		if ( error != null ) { 
+			console.log('stderr(genByteCode): ' + stderr);
+			var errMsg = hideErrorMsgPath(tmpDir.path, stderr);
 	        socket.emit('wrong', {
-	        	err: stderr
+	        	err: errMsg
 	        });
 	        return;
-	        // error handling & exit
 	   }
 	   console.log('bytecode file generated');
 	   console.log(stdout);
