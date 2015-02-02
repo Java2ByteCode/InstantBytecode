@@ -34,7 +34,7 @@ function java2ByteCode(javaFile, code, socket) {
 }
 
 function hideErrorMsgPath(tmpDirPath, stderr) {
-	var tmp = tmpDirPath.replace(/([\/\\])/g, '');
+	var tmp = tmpDirPath.replace(/[\/\\]/g, '');
 	return stderr.replace(/[\/\\]/g, '').replace(tmp, '');
 }
 
