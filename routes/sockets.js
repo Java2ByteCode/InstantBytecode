@@ -40,8 +40,7 @@ function hideErrorMsgPath(tmpDirPath, stderr) {
 
 function compileJava(javaFile, socket, tmpDir) {
 	console.log('seperator: ' + sep);
-	var child = exec(process.env.JAVA_HOME + sep + 'bin' + sep + 'javac ' + 
-		tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
+	var child = exec('javac ' + tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log('stderr(compieJava): ' + stderr);
 	        var errMsg = hideErrorMsgPath(tmpDir.path, stderr);        
@@ -56,8 +55,7 @@ function compileJava(javaFile, socket, tmpDir) {
 }
 
 function genByteCode(classFile, socket, tmpDir) {
-	var child = exec(process.env.JAVA_HOME + sep + 'bin' + sep + 'javap -c ' + 
-		tmpDir.path + sep + classFile, function(error, stdout, stderr) {
+	var child = exec('javap -c ' + tmpDir.path + sep + classFile, function(error, stdout, stderr) {
 		if ( error != null ) { 
 			console.log('stderr(genByteCode): ' + stderr);
 			var errMsg = hideErrorMsgPath(tmpDir.path, stderr);
