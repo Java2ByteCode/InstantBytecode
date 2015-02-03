@@ -40,7 +40,7 @@ function hideErrorMsgPath(tmpDirPath, stderr) {
 
 function compileJava(javaFile, socket, tmpDir) {
 	console.log('seperator: ' + sep);
-	var child = exec(getEnvVarWin('JAVA_HOME') + sep + 'bin' + sep + 'javac ' + 
+	var child = exec(process.env.JAVA_HOME + sep + 'bin' + sep + 'javac ' + 
 		tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log('stderr(compieJava): ' + stderr);
@@ -56,7 +56,7 @@ function compileJava(javaFile, socket, tmpDir) {
 }
 
 function genByteCode(classFile, socket, tmpDir) {
-	var child = exec(getEnvVarWin('JAVA_HOME')+ sep + 'bin' + sep + 'javap -c ' + 
+	var child = exec(process.env.JAVA_HOME + sep + 'bin' + sep + 'javap -c ' + 
 		tmpDir.path + sep + classFile, function(error, stdout, stderr) {
 		if ( error != null ) { 
 			console.log('stderr(genByteCode): ' + stderr);
@@ -72,14 +72,6 @@ function genByteCode(classFile, socket, tmpDir) {
 	   		code: stdout
 	   });
 	});
-}
-
-function getEnvVarWin(envVar) {
-	if(process.platform.indexOf('win32') > -1) { // windows operating system
-		return '%'+envVar+'%';
-	} else {
-		return '$'+envVar;
-	}
 }
 
 function getSeparator() {
