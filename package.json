@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "supervisor ./bin/www"
   },
+  "main": "./bin/www",
   "dependencies": {
     "body-parser": "~1.10.1",
     "cookie-parser": "~1.3.3",
