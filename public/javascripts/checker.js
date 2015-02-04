@@ -2,6 +2,7 @@ var socket = io.connect('/');
 var waitMilliSec = 1000;
 var oldJavaCode = '';
 var oldClassName = '';
+var inputJavaCM;
 var outputBcCM;
 
 socket.on('byte_code', function(data) {
@@ -13,15 +14,18 @@ socket.on('wrong', function(data) {
 });
 
 $(function() {
-	var inputJavaCM = CodeMirror.fromTextArea(document.getElementById('input_java'), {
+	inputJavaCM = CodeMirror.fromTextArea(document.getElementById('input_java'), {
 		styleActiveLine: true,
 		mode: 'clike',
 		lineNumbers: true
 	});
+	inputJavaCM.setSize("100%", "100%");
+	
 	outputBcCM = CodeMirror.fromTextArea(document.getElementById('output_bc'), {
 		mode: 'clike',
 		lineNumbers: true
 	});
+	outputBcCM.setSize("100%", "100%");
 
 	var idleIntervalId = setInterval(function() {
 		newJavaCode = inputJavaCM.getValue();
