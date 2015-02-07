@@ -40,7 +40,8 @@ $(function() {
 
 	outputBcCM = CodeMirror.fromTextArea(document.getElementById('output_bc'), {
 		mode: 'clike',
-		lineNumbers: true
+		lineNumbers: true,
+		readOnly: true
 	});
 	outputBcCM.setSize("100%", "100%");
 
