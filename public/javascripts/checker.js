@@ -12,6 +12,10 @@ socket.on('wrong', function(data) {
 	outputBcCM.setValue(data.err);
 });
 
+socket.on('update_user_num', function(data) {
+	$('.numUsers').text(data.usersNum);
+});
+
 function delayedUpload() {
 	clearTimeout(codeUploader);
 	codeUploader = setTimeout(function() {

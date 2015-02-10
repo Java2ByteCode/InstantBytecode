@@ -3,21 +3,41 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var tmp = require('temporary');
 var sep = getSeparator();
+var usersNum = 0;
 
 exports.init = function(server) {
 	console.log('JavaDec initialized');
 	io = io.listen(server);
 
 	io.on('connection', function(socket) { // triggered by io.connect('/') at the client side
+		usersNum += 1;
+		broadCast(socket, usersNum, true);
 		console.log('JavaDec on connection');
 
 		socket.on('code_sent', function(data) {
 			var javaFile = data.className + '.java';
 			console.log('code received');
-			
 			java2ByteCode(javaFile, data.code, socket);
 		});
+
+		socket.on('disconnect', function() {
+			usersNum -= 1;
+			broadCast(socket, usersNum, false);
+		});
+
 	});
+}
+
+function broadCast(socket, usersNum, includeSelf) {
+	socket.broadcast.emit('update_user_num', { // to all clients EXCEPT the connected client.
+		usersNum: usersNum
+	});
+	if (includeSelf == true) {
+		socket.emit('update_user_num', { 
+			usersNum: usersNum
+		});		
+	}
+	
 }
 
 function java2ByteCode(javaFile, code, socket) {
