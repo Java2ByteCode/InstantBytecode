@@ -18,7 +18,8 @@ function delayedUpload() {
 		socket.emit('code_sent', {
 			code: inputJavaCM.getValue(),
 			className: $('#class_name').val()
-		});	
+		});
+		outputBcCM.setValue('// Processing...');
 	}, delayMilliSec);	
 }
 
