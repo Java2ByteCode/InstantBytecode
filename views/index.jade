@@ -7,17 +7,17 @@ block append head
   script(src='/codemirror-4.12/mode/clike/clike.js')
 
 block content
-  div.a
+  div.head
     h1 Welcome to Java to Bytecode Converter Online
     br
     input#class_name(placeholder="Enter your class name")
-  div.b
-    div.b0
-    div.b1
+  div.main
+    div.fillLeft
+    div.inputDiv
       h2 Your java code:
       textarea#input_java(name="styled-textarea", style="background-color: white; background-position: initial initial; background-repeat: initial initial;")
-    div.b2
-    div.b3
+    div.fillMid
+    div.outputDiv
       h2 Your result: 
       textarea#output_bc(name="styled-textarea", readonly, style="background-color: white; background-position: initial initial; background-repeat: initial initial;")
-    div.b4
+    div.fillRight

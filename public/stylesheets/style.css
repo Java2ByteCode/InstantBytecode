@@ -1,36 +1,36 @@
-.a{
+.head{
 	max-width: 92%;
 	width: 100%;
 	height: 15%;
 	margin: 3% auto;
 }
-.b{
+.main{
 	max-width: 100%;
 	width: 100%;
 	height: 450px;
 	margin: 0px auto;
 }
-.b0{
+.fillLeft{
 	width: 4%;
 	height: 100%;
 	float: left;
 }
-.b1{
+.inputDiv{
 	width: 44%;
 	height: 100%;
 	float: left;
 }
-.b2{
+.fillMid{
 	width: 4%;
 	height: 100%;
 	float: left;
 }
-.b3{
+.outputDiv{
 	width: 44%;
 	height: 100%;
 	float: left;
 }
-.b4{
+.fillRight{
 	width: 4%;
 	height: 100%;
 	float: left;
