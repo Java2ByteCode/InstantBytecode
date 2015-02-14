@@ -3,15 +3,13 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 var tmp = require('temporary');
 var sep = getSeparator();
-var usersNum = 0;
 
 exports.init = function(server) {
 	console.log('JavaDec initialized');
 	io = io.listen(server);
 
 	io.on('connection', function(socket) { // triggered by io.connect('/') at the client side
-		usersNum += 1;
-		broadCast(socket, usersNum, true);
+		broadCast(socket, io.engine.clientsCount, true);
 		console.log('JavaDec on connection');
 
 		socket.on('code_sent', function(data) {
@@ -21,8 +19,7 @@ exports.init = function(server) {
 		});
 
 		socket.on('disconnect', function() {
-			usersNum -= 1;
-			broadCast(socket, usersNum, false);
+			broadCast(socket, io.engine.clientsCount, false);
 		});
 
 	});
