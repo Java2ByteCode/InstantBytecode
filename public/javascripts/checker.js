@@ -10,7 +10,7 @@ function delayedUpload() {
 			code: inputJavaCM.getValue(),
 			className: $('#class_name').val()
 		};
-		$.get('/getByteCode', code, function(data) {
+		$.post('/getByteCode', code, function(data) {
 			console.log('data.err: ' + data.err);
 			console.log('data.code: ' + data.code);
 			if(typeof data.code != 'undefined') {

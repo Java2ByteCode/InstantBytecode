@@ -5,7 +5,7 @@ var sep = getSeparator();
 var express = require('express');
 var router = express.Router();
 
-router.get('/getByteCode', function (req, res) {
+router.post('/getByteCode', function (req, res) {
 	var javaFile = req.query.className + '.java';
 	console.log('code received');
 	java2ByteCode(javaFile, req.query.code, res);
