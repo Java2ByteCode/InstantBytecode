@@ -1,43 +1,17 @@
-var io = require('socket.io');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var tmp = require('temporary');
 var sep = getSeparator();
+var express = require('express');
+var router = express.Router();
 
-exports.init = function(server) {
-	console.log('JavaDec initialized');
-	io = io.listen(server);
+router.get('/getByteCode', function (req, res) {
+	var javaFile = req.query.className + '.java';
+	console.log('code received');
+	java2ByteCode(javaFile, req.query.code, res);
+});
 
-	io.on('connection', function(socket) { // triggered by io.connect('/') at the client side
-		broadCast(socket, io.engine.clientsCount, true);
-		console.log('JavaDec on connection');
-
-		socket.on('code_sent', function(data) {
-			var javaFile = data.className + '.java';
-			console.log('code received');
-			java2ByteCode(javaFile, data.code, socket);
-		});
-
-		socket.on('disconnect', function() {
-			broadCast(socket, io.engine.clientsCount, false);
-		});
-
-	});
-}
-
-function broadCast(socket, usersNum, includeSelf) {
-	socket.broadcast.emit('update_user_num', { // to all clients EXCEPT the connected client.
-		usersNum: usersNum
-	});
-	if (includeSelf == true) {
-		socket.emit('update_user_num', { 
-			usersNum: usersNum
-		});		
-	}
-	
-}
-
-function java2ByteCode(javaFile, code, socket) {
+function java2ByteCode(javaFile, code, res) {
 	var tmpDir = new tmp.Dir();
 	console.log('tmpDir: ' + tmpDir.path);
 	fs.writeFile(tmpDir.path + sep + javaFile, code, function(err) {
@@ -46,7 +20,7 @@ function java2ByteCode(javaFile, code, socket) {
 			return;
 		} 
 		console.log('java file generated');
-		compileJava(javaFile, socket, tmpDir);
+		compileJava(javaFile, res, tmpDir);
 	});
 }
 
@@ -55,37 +29,31 @@ function hideErrorMsgPath(tmpDirPath, stderr) {
 	return stderr.replace(/[\/\\]/g, '').replace(tmp, '');
 }
 
-function compileJava(javaFile, socket, tmpDir) {
+function compileJava(javaFile, res, tmpDir) {
 	console.log('seperator: ' + sep);
 	var child = exec('javac ' + tmpDir.path + sep + javaFile, function(error, stdout, stderr) {
 		if ( error != null ) {
 	        console.log('stderr(compieJava): ' + stderr);
 	        var errMsg = hideErrorMsgPath(tmpDir.path, stderr);        
-	        socket.emit('wrong', {
-	        	err: errMsg
-	        });
+			res.send({err: errMsg});
 	        return;
 	   }
 	   console.log('class file generated');
-	   genByteCode(javaFile.replace('java', 'class'), socket, tmpDir);
+	   genByteCode(javaFile.replace('java', 'class'), res, tmpDir);
 	});
 }
 
-function genByteCode(classFile, socket, tmpDir) {
+function genByteCode(classFile, res, tmpDir) {
 	var child = exec('javap -c ' + tmpDir.path + sep + classFile, function(error, stdout, stderr) {
 		if ( error != null ) { 
 			console.log('stderr(genByteCode): ' + stderr);
 			var errMsg = hideErrorMsgPath(tmpDir.path, stderr);
-	        socket.emit('wrong', {
-	        	err: errMsg
-	        });
+	        res.send({err: errMsg});
 	        return;
-	   }
-	   console.log('bytecode file generated');
-	   console.log(stdout);
-	   socket.emit('byte_code', {
-	   		code: stdout
-	   });
+		}
+	console.log('bytecode file generated');
+		//console.log(stdout);
+		res.send({code: stdout});
 	});
 }
 
@@ -96,3 +64,5 @@ function getSeparator() {
 		return '/';
 	}
 }
+
+module.exports = router;

@@ -1,15 +1,11 @@
 extends layout
 
 block append head
-  script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/checker.js')
   script(src='/codemirror-4.12/lib/codemirror.js')
   script(src='/codemirror-4.12/mode/clike/clike.js')
 
 block content
-  div.ooxx(style="position: absolute; bottom: 15px; left: 15px; ")
-    p Number of Users:
-      span.numUsers(style="color:blue;")
   div.head
     h1 Welcome to Java to Bytecode Converter Online
     br

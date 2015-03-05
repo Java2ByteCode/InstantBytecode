@@ -1,27 +1,24 @@
-var socket = io.connect('/'); 
 var delayMilliSec = 1000;
 var inputJavaCM;
 var outputBcCM;
 var codeUploader;
 
-socket.on('byte_code', function(data) {
-	outputBcCM.setValue(data.code);
-});
-
-socket.on('wrong', function(data) {
-	outputBcCM.setValue(data.err);
-});
-
-socket.on('update_user_num', function(data) {
-	$('.numUsers').text(data.usersNum);
-});
-
 function delayedUpload() {
 	clearTimeout(codeUploader);
 	codeUploader = setTimeout(function() {
-		socket.emit('code_sent', {
+		var code = {
 			code: inputJavaCM.getValue(),
 			className: $('#class_name').val()
+		};
+		$.get('/getByteCode', code, function(data) {
+			console.log('data.err: ' + data.err);
+			console.log('data.code: ' + data.code);
+			if(typeof data.code != 'undefined') {
+				outputBcCM.setValue(data.code);
+			} else if(typeof data.err != 'undefined') {
+				outputBcCM.setValue(data.err);
+			}
+			
 		});
 		outputBcCM.setValue('// Processing...');
 	}, delayMilliSec);	
